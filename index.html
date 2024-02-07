@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz App</title>
+<script>
+let currentQuestionIndex = 0;
+
+const quiz = [
+  {
+    question: "Were women hunters or gatherers?",
+    answers: ["Hunters", "Gathers"],
+    correctAnswer: 0,
+    responses: ["Interesting choice! Women often participated in hunting but were not relagated to one job over the other, (source, 1111)", "Women being seen as gathers has been a long standing image, but bone fragments often tell a different story (source, 2014), blah blah much longer more info"]
+  },
+  {
+    question: "Did female neanderthals stay with their birth families or kin groups?",
+    answers: ["Yes", "No"],
+    correctAnswer: 1,
+    responses: ["This may be incorrect, women in neanderthal times often left there orginal families, this is the reason we beleive so balah blah(source, 1111)", "You may be correct, it is beleived that males more frequently stayed with their original genetic families. (source, 1111)"]
+  },
+];
+
+function displayQuestion(index) {
+  let item = quiz[index];
+  let quizContainer = document.getElementById('quiz');
+  quizContainer.innerHTML = `<p>${item.question}</p>`;
+
+  item.answers.forEach((answer, answerIndex) => {
+    let button = document.createElement('button');
+    button.textContent = answer;
+    button.onclick = function() {
+      alert(item.responses[answerIndex]);
+    };
+    quizContainer.appendChild(button);
+  });
+
+  // Optionally, update navigation buttons state
+  updateNavigationState();
+}
+
+function updateNavigationState() {
+  document.getElementById('back').disabled = currentQuestionIndex === 0;
+  document.getElementById('next').disabled = currentQuestionIndex === quiz.length - 1;
+}
+
+function moveToNextQuestion() {
+  if (currentQuestionIndex < quiz.length - 1) {
+    currentQuestionIndex++;
+    displayQuestion(currentQuestionIndex);
+  }
+}
+
+function moveToPreviousQuestion() {
+  if (currentQuestionIndex > 0) {
+    currentQuestionIndex--;
+    displayQuestion(currentQuestionIndex);
+  }
+}
+
+window.onload = function() {
+  displayQuestion(currentQuestionIndex);
+};
+</script>
+</head>
+<body>
+<h1>Quiz</h1>
+<div id="quiz">
+  <!-- Question will be injected here by JavaScript -->
+</div>
+<button id="back" onclick="moveToPreviousQuestion()">Back</button>
+<button id="next" onclick="moveToNextQuestion()">Next</button>
+</body>
+</html>
